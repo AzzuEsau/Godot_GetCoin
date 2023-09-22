@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://h0rftmol7jai"]
+
+[ext_resource type="PackedScene" uid="uid://dw1fde75couyx" path="res://prefabs/player/player.tscn" id="1_x0756"]
+
+[node name="main" type="Node"]
+
+[node name="player" parent="." instance=ExtResource("1_x0756")]
+position = Vector2(243, 283)
+velocity = 300
