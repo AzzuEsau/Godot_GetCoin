@@ -11,15 +11,18 @@ public partial class Player : Area2D {
 		#endregion
 
 		private Vector2 movement = new Vector2();
-		private Vector2 windowSize = new Vector2(480, 720);
+		private Vector2 windowSize = Game.screenSize;
 	#endregion
 
 	#region Signals
+		[Signal] public delegate void RecolectCoinEventHandler();
+		[Signal] public delegate void HurtEventHandler();
 	#endregion
 
 	#region Godot Methods
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready() {
+			this.AreaEntered += Player_AreaEntered;
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,10 +45,6 @@ public partial class Player : Area2D {
 			float hMov = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
 			float vMov = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 			movement = new Vector2(hMov, vMov).Normalized();
-
-
-			if (Input.IsActionJustPressed("ui_accept"))
-				Death();
 		}
 
 		private void Move(double delta) {
@@ -72,5 +71,15 @@ public partial class Player : Area2D {
 	#endregion
 
 	#region Events
+		private void Player_AreaEntered(Area2D area) {
+			if(area.IsInGroup("Coin")) {
+				area.QueueFree();
+				EmitSignal("RecolectCoin");
+			}
+			else if (area.IsInGroup("Hurtable")) {
+				EmitSignal("Hurt");
+				Death();
+			}
+		}
 	#endregion
 }

@@ -1,9 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://h0rftmol7jai"]
+[gd_scene load_steps=5 format=3 uid="uid://h0rftmol7jai"]
 
+[ext_resource type="Script" path="res://scripts/game/Game.cs" id="1_c43hb"]
+[ext_resource type="Texture2D" uid="uid://c2o7br2bj7slh" path="res://media/sprites/environment/grass.png" id="1_nlpd3"]
 [ext_resource type="PackedScene" uid="uid://dw1fde75couyx" path="res://prefabs/player/player.tscn" id="1_x0756"]
+[ext_resource type="PackedScene" uid="uid://bv2yxr08vkqnw" path="res://prefabs/environment/coin.tscn" id="2_vxd3i"]
 
-[node name="main" type="Node"]
+[node name="main" type="Node" node_paths=PackedStringArray("coinContainer", "playerSpawn", "gameTimer")]
+script = ExtResource("1_c43hb")
+coinPrefab = ExtResource("2_vxd3i")
+playerPrefab = ExtResource("1_x0756")
+coinContainer = NodePath("CoinContainer")
+playerSpawn = NodePath("PlayerSpawn")
+gameTimer = NodePath("GameTimer")
 
-[node name="player" parent="." instance=ExtResource("1_x0756")]
-position = Vector2(243, 283)
-velocity = 300
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nlpd3")
+stretch_mode = 1
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(244, 238)
+
+[node name="CoinContainer" type="Node" parent="."]
+
+[node name="GameTimer" type="Timer" parent="."]
