@@ -1,17 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://h0rftmol7jai"]
+[gd_scene load_steps=4 format=3 uid="uid://h0rftmol7jai"]
 
 [ext_resource type="Script" path="res://scripts/game/Game.cs" id="1_c43hb"]
 [ext_resource type="Texture2D" uid="uid://c2o7br2bj7slh" path="res://media/sprites/environment/grass.png" id="1_nlpd3"]
-[ext_resource type="PackedScene" uid="uid://dw1fde75couyx" path="res://prefabs/player/player.tscn" id="1_x0756"]
-[ext_resource type="PackedScene" uid="uid://bv2yxr08vkqnw" path="res://prefabs/environment/coin.tscn" id="2_vxd3i"]
+[ext_resource type="PackedScene" uid="uid://csbwo0ms0o864" path="res://prefabs/ui/hud.tscn" id="3_c8ebq"]
 
-[node name="main" type="Node" node_paths=PackedStringArray("coinContainer", "playerSpawn", "gameTimer")]
+[node name="main" type="Node" node_paths=PackedStringArray("coinContainer", "playerSpawn", "gameTimer", "hud")]
 script = ExtResource("1_c43hb")
-coinPrefab = ExtResource("2_vxd3i")
-playerPrefab = ExtResource("1_x0756")
 coinContainer = NodePath("CoinContainer")
 playerSpawn = NodePath("PlayerSpawn")
 gameTimer = NodePath("GameTimer")
+hud = NodePath("hud")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -28,3 +26,5 @@ position = Vector2(244, 238)
 [node name="CoinContainer" type="Node" parent="."]
 
 [node name="GameTimer" type="Timer" parent="."]
+
+[node name="hud" parent="." instance=ExtResource("3_c8ebq")]

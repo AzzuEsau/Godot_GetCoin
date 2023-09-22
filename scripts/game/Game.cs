@@ -9,6 +9,7 @@ public partial class Game : Node {
 		[Export] Node coinContainer;
 		[Export] Marker2D playerSpawn;
 		[Export] Timer gameTimer;
+		[Export] HUD hud;
 		// PackedScene coins = (PackedScene)ResourceLoader.Load("res://prefabs/environment/Obstacle.tscn");
 
 		public static Vector2 screenSize = new Vector2(480, 720);
@@ -28,10 +29,11 @@ public partial class Game : Node {
 	#region Godot Methods
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready() {
-			CreatePlayer();
-			AddCoin();
+			gameTimer.Timeout += GameTimer_Timeout;
+			hud.StartGame += HUD_StartGame;
 
-			StartGame();
+			CreatePlayer();
+			// StartGame();
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,6 +56,7 @@ public partial class Game : Node {
 			player = (Player)GameResources.playerPrefab.Instantiate();
 
 			player.RecolectCoin += Player_RecolectCoin;
+			player.Hurt += Player_Hurt;
 
 			player.Hide();
 			AddChild(player);
@@ -63,19 +66,58 @@ public partial class Game : Node {
 			playing = true;
 			level = 1;
 			score = 0;
-			timeLeft = 0;
+			timeLeft = 10;
+
+			hud.UpdateScore(score);
+			hud.UpdateTimer(timeLeft);
+			
+			AddCoin();
+
+			gameTimer.Start();
 			player.Start(playerSpawn.Position);
 			player.Show();
+		}
+
+		private void GameOver() {
+			playing = false;
+			gameTimer.Stop();
+
+			foreach(Coin coin in coinContainer.GetChildren()) {
+				coin.QueueFree();
+			}
+
+			player.Death();
+			hud.ShowTitleGame();
 		}
 	#endregion
 
 	#region Events
 		private void Player_RecolectCoin() {
+			score++;
+			hud.UpdateScore(score);
+
 			if(playing && coinContainer.GetChildCount() <= 1) {
 				level++;
 				timeLeft += 7;
 				AddCoin();
+				hud.UpdateTimer(timeLeft);
 			}
+		}
+
+		private void Player_Hurt() {
+			GameOver();
+		}
+
+		private void GameTimer_Timeout() {
+			timeLeft -= 1;
+			hud.UpdateTimer(timeLeft);
+
+			if(timeLeft <= 0)
+				GameOver();
+		}
+
+		private void HUD_StartGame() {
+			StartGame();
 		}
 	#endregion
 }

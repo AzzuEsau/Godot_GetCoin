@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://csbwo0ms0o864"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUD.cs" id="1_0h3jc"]
+[ext_resource type="LabelSettings" uid="uid://brru7552ck4iu" path="res://settings/label/common_label.tres" id="2_h7tvo"]
+[ext_resource type="FontFile" uid="uid://dlwrvjkurct1a" path="res://media/fonts/Kenney Bold.ttf" id="3_rlfbd"]
+
+[node name="hud" type="CanvasLayer" node_paths=PackedStringArray("scoreLabel", "timeLabel", "titleLabel", "playButton")]
+script = ExtResource("1_0h3jc")
+scoreLabel = NodePath("Menu/Score")
+timeLabel = NodePath("Menu/TimeLeft")
+titleLabel = NodePath("Menu/Title")
+playButton = NodePath("Menu/Title/Button")
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Score" type="Label" parent="Menu"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 165.0
+offset_bottom = 54.0
+text = "SCORE: 15"
+label_settings = ExtResource("2_h7tvo")
+
+[node name="TimeLeft" type="Label" parent="Menu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 53.0
+grow_horizontal = 0
+text = "10"
+label_settings = ExtResource("2_h7tvo")
+horizontal_alignment = 2
+
+[node name="Title" type="Label" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GET  THE  COIN"
+label_settings = ExtResource("2_h7tvo")
+
+[node name="Button" type="Button" parent="Menu/Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -91.0
+offset_top = 34.0
+offset_right = 83.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_rlfbd")
+theme_override_font_sizes/font_size = 24
+text = "START"
