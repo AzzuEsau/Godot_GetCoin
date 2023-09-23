@@ -4,12 +4,13 @@ using System;
 public partial class Game : Node {
 	#region Variables
 		[Export] private int gameTime;
-		// [Export] PackedScene coinPrefab;
-		// [Export] PackedScene playerPrefab;
 		[Export] Node coinContainer;
 		[Export] Marker2D playerSpawn;
 		[Export] Timer gameTimer;
+		[Export] Timer powerUpTimer;
 		[Export] HUD hud;
+
+
 
 		[Export] AudioStreamPlayer startAudio;
 		[Export] AudioStreamPlayer deathAudio;
@@ -35,6 +36,8 @@ public partial class Game : Node {
 		public override void _Ready() {
 			gameTimer.Timeout += GameTimer_Timeout;
 			hud.StartGame += HUD_StartGame;
+
+			powerUpTimer.Timeout += PowerUpTimer_Timeout;
 
 			CreatePlayer();
 			// StartGame();
@@ -62,6 +65,7 @@ public partial class Game : Node {
 
 			player.RecolectCoin += Player_RecolectCoin;
 			player.Hurt += Player_Hurt;
+			player.RecolectPowerUp += Player_RecolectPowerUp;
 
 			player.Hide();
 			AddChild(player);
@@ -80,6 +84,7 @@ public partial class Game : Node {
 			
 			AddCoin();
 
+			powerUpTimer.Start();
 			gameTimer.Start();
 			player.Start(playerSpawn.Position);
 			player.Show();
@@ -110,6 +115,7 @@ public partial class Game : Node {
 
 	#region Events
 		private void Player_RecolectCoin() {
+			coinAudio.Stream = GameResources.coinAudio;
 			coinAudio.Play();
 			score++;
 			hud.UpdateScore(score);
@@ -117,6 +123,13 @@ public partial class Game : Node {
 
 		private void Player_Hurt() {
 			GameOver();
+		}
+
+		private void Player_RecolectPowerUp() {
+			coinAudio.Stream = GameResources.powerUpAudio;
+			coinAudio.Play();
+			timeLeft += 3;
+			hud.UpdateTimer(timeLeft);
 		}
 
 		private void GameTimer_Timeout() {
@@ -129,6 +142,16 @@ public partial class Game : Node {
 
 		private void HUD_StartGame() {
 			StartGame();
+		}
+
+		private void PowerUpTimer_Timeout() {
+			powerUpTimer.WaitTime = GD.RandRange(5f, 30f);
+
+			PowerUp newPowerUp = (PowerUp)GameResources.powerUpPrefab.Instantiate();
+			AddChild(newPowerUp);
+			float xRange = (float)GD.RandRange(5, screenSize.X);
+			float yRange = (float)GD.RandRange(5, screenSize.Y);
+			newPowerUp.Position = new Vector2(xRange, yRange);
 		}
 	#endregion
 }

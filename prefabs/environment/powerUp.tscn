@@ -1,0 +1,78 @@
+[gd_scene load_steps=14 format=3 uid="uid://buafh34lx32uf"]
+
+[ext_resource type="Script" path="res://scripts/environment/PowerUp.cs" id="1_0p6k8"]
+[ext_resource type="Texture2D" uid="uid://bjnbovldqwdnd" path="res://media/sprites/environment/pow/pow-frame-1.png" id="1_kpsww"]
+[ext_resource type="Texture2D" uid="uid://bjxdkmy8kt10m" path="res://media/sprites/environment/pow/pow-frame-2.png" id="2_uh5nb"]
+[ext_resource type="Texture2D" uid="uid://5ip325p3igc2" path="res://media/sprites/environment/pow/pow-frame-3.png" id="3_pidju"]
+[ext_resource type="Texture2D" uid="uid://diko5fxcufmo2" path="res://media/sprites/environment/pow/pow-frame-4.png" id="4_7yt2q"]
+[ext_resource type="Texture2D" uid="uid://d1ppgn4ne8csc" path="res://media/sprites/environment/pow/pow-frame-5.png" id="5_1l7qy"]
+[ext_resource type="Texture2D" uid="uid://dxavsy0vhpo5o" path="res://media/sprites/environment/pow/pow-frame-6.png" id="6_2sn4s"]
+[ext_resource type="Texture2D" uid="uid://cjd0s456bdemt" path="res://media/sprites/environment/pow/pow-frame-7.png" id="7_2sqn0"]
+[ext_resource type="Texture2D" uid="uid://btpeos080r1xt" path="res://media/sprites/environment/pow/pow-frame-8.png" id="8_3efe3"]
+[ext_resource type="Texture2D" uid="uid://cvubfa63vtqca" path="res://media/sprites/environment/pow/pow-frame-9.png" id="9_5jcmo"]
+[ext_resource type="Texture2D" uid="uid://crvh8syjmh0qf" path="res://media/sprites/environment/pow/pow-frame-10.png" id="10_vf1n8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7sy4b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_kpsww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_uh5nb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pidju")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7yt2q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1l7qy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_2sn4s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2sqn0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3efe3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5jcmo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_vf1n8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8dnf"]
+
+[node name="powerUp" type="Area2D" node_paths=PackedStringArray("animatedSprite2D", "collision", "animationTimer", "lifeTimer") groups=["PowerUp"]]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_0p6k8")
+animatedSprite2D = NodePath("AnimatedSprite2D")
+collision = NodePath("CollisionShape2D")
+animationTimer = NodePath("Timer")
+lifeTimer = NodePath("LifeTimer")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7sy4b")
+autoplay = "default"
+frame_progress = 0.10939
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(5.4575, 5.4575)
+shape = SubResource("RectangleShape2D_n8dnf")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true

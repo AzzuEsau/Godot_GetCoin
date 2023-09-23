@@ -16,6 +16,7 @@ public partial class Player : Area2D {
 
 	#region Signals
 		[Signal] public delegate void RecolectCoinEventHandler();
+		[Signal] public delegate void RecolectPowerUpEventHandler();
 		[Signal] public delegate void HurtEventHandler();
 	#endregion
 
@@ -79,6 +80,10 @@ public partial class Player : Area2D {
 			else if (area.IsInGroup("Hurtable")) {
 				EmitSignal("Hurt");
 				Death();
+			}
+			else if (area.IsInGroup("PowerUp")) {
+				((PowerUp)area).Collect();
+				EmitSignal("RecolectPowerUp");
 			}
 		}
 	#endregion
