@@ -7,9 +7,10 @@
 [ext_resource type="AudioStream" uid="uid://d1ipxb7u7ujnr" path="res://media/audio/Level.wav" id="5_kuchj"]
 [ext_resource type="AudioStream" uid="uid://cy04cqbtdjh0w" path="res://media/audio/Hit.wav" id="6_8g1qj"]
 
-[node name="main" type="Node" node_paths=PackedStringArray("coinContainer", "playerSpawn", "gameTimer", "powerUpTimer", "hud", "startAudio", "deathAudio", "coinAudio")]
+[node name="main" type="Node" node_paths=PackedStringArray("coinContainer", "huratbleContainer", "playerSpawn", "gameTimer", "powerUpTimer", "hud", "startAudio", "deathAudio", "coinAudio")]
 script = ExtResource("1_c43hb")
 coinContainer = NodePath("CoinContainer")
+huratbleContainer = NodePath("HurtableContainer")
 playerSpawn = NodePath("PlayerSpawn")
 gameTimer = NodePath("Timers/GameTimer")
 powerUpTimer = NodePath("Timers/PowerUpTimer")
@@ -49,5 +50,7 @@ stream = ExtResource("6_8g1qj")
 [node name="CoinAuido" type="AudioStreamPlayer" parent="AudioContainer"]
 stream = ExtResource("4_woiwo")
 volume_db = -5.0
+
+[node name="HurtableContainer" type="Node" parent="."]
 
 [node name="CoinContainer" type="Node" parent="."]

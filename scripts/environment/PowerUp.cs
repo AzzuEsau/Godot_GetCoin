@@ -11,6 +11,8 @@ public partial class PowerUp : Area2D {
 
 	#region Godot Methods
 		public override void _Ready() {
+			this.AreaEntered += PowerUp_AreaEntered;
+
 			animatedSprite2D.Pause();
 
 			animationTimer.WaitTime = GD.RandRange(.1f, .7f);
@@ -44,5 +46,13 @@ public partial class PowerUp : Area2D {
         private void LifeTimer_Timeout() {
             Delete();
         }
+
+		private void PowerUp_AreaEntered(Area2D area) {
+			if(area.IsInGroup("Hurtable")) {
+				float xRange = (float)GD.RandRange(5, Game.screenSize.X);
+				float yRange = (float)GD.RandRange(5, Game.screenSize.Y);
+				Position = new Vector2(xRange, yRange);
+			}
+		}
 	#endregion
 }

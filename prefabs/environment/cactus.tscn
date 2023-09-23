@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1ku83tqv5t8e"]
+
+[ext_resource type="Texture2D" uid="uid://cp2y6oirckkcb" path="res://media/sprites/environment/cactus.png" id="1_gkht7"]
+[ext_resource type="Script" path="res://scripts/environment/Cactus.cs" id="1_wyp16"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjy1t"]
+size = Vector2(22, 36)
+
+[node name="cactus" type="Area2D" groups=["Hurtable"]]
+script = ExtResource("1_wyp16")
+
+[node name="Cactus" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_gkht7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_vjy1t")

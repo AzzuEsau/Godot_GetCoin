@@ -5,6 +5,7 @@ public partial class Game : Node {
 	#region Variables
 		[Export] private int gameTime;
 		[Export] Node coinContainer;
+		[Export] Node huratbleContainer;
 		[Export] Marker2D playerSpawn;
 		[Export] Timer gameTimer;
 		[Export] Timer powerUpTimer;
@@ -60,6 +61,14 @@ public partial class Game : Node {
 			}
 		}
 
+		private void AddCactus() {
+			Cactus newCactus = (Cactus)GameResources.cactusPrefab.Instantiate();;
+			huratbleContainer.AddChild(newCactus);
+			float xRange = (float)GD.RandRange(5, screenSize.X);
+			float yRange = (float)GD.RandRange(5, screenSize.Y);
+			newCactus.Position = new Vector2(xRange, yRange);
+		}
+
 		private void CreatePlayer() {
 			player = (Player)GameResources.playerPrefab.Instantiate();
 
@@ -82,6 +91,7 @@ public partial class Game : Node {
 			hud.UpdateScore(score);
 			hud.UpdateTimer(timeLeft);
 			
+			AddCactus();
 			AddCoin();
 
 			powerUpTimer.Start();
@@ -95,9 +105,11 @@ public partial class Game : Node {
 			playing = false;
 			gameTimer.Stop();
 
-			foreach(Coin coin in coinContainer.GetChildren()) {
+			foreach(Coin coin in coinContainer.GetChildren())
 				coin.QueueFree();
-			}
+			foreach(Cactus coin in huratbleContainer.GetChildren())
+				coin.QueueFree();
+
 
 			player.Death();
 			hud.ShowTitleGame();
@@ -108,6 +120,7 @@ public partial class Game : Node {
 				level++;
 				timeLeft += 7;
 				AddCoin();
+				AddCactus();
 				hud.UpdateTimer(timeLeft);
 			}
 		}
@@ -145,6 +158,8 @@ public partial class Game : Node {
 		}
 
 		private void PowerUpTimer_Timeout() {
+			if(!playing) return;
+
 			powerUpTimer.WaitTime = GD.RandRange(5f, 30f);
 
 			PowerUp newPowerUp = (PowerUp)GameResources.powerUpPrefab.Instantiate();
