@@ -10,6 +10,10 @@ public partial class Game : Node {
 		[Export] Marker2D playerSpawn;
 		[Export] Timer gameTimer;
 		[Export] HUD hud;
+
+		[Export] AudioStreamPlayer startAudio;
+		[Export] AudioStreamPlayer deathAudio;
+		[Export] AudioStreamPlayer coinAudio;
 		// PackedScene coins = (PackedScene)ResourceLoader.Load("res://prefabs/environment/Obstacle.tscn");
 
 		public static Vector2 screenSize = new Vector2(480, 720);
@@ -38,16 +42,17 @@ public partial class Game : Node {
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta) {
+			CheckCoins();
 		}
 	#endregion
 
 	#region My Methods
 		private void AddCoin() {
 			for (int i = 0; i < 4 + level; i++) {
-				Node2D newCoin = (Node2D)GameResources.coinsPrefab.Instantiate();;
+				Coin newCoin = (Coin)GameResources.coinsPrefab.Instantiate();;
+				coinContainer.AddChild(newCoin);
 				float xRange = (float)GD.RandRange(5, screenSize.X);
 				float yRange = (float)GD.RandRange(5, screenSize.Y);
-				coinContainer.AddChild(newCoin);
 				newCoin.Position = new Vector2(xRange, yRange);
 			}
 		}
@@ -63,6 +68,8 @@ public partial class Game : Node {
 		}
 
 		private void StartGame() {
+			startAudio.Play();
+
 			playing = true;
 			level = 1;
 			score = 0;
@@ -79,6 +86,7 @@ public partial class Game : Node {
 		}
 
 		private void GameOver() {
+			deathAudio.Play();
 			playing = false;
 			gameTimer.Stop();
 
@@ -89,19 +97,22 @@ public partial class Game : Node {
 			player.Death();
 			hud.ShowTitleGame();
 		}
-	#endregion
 
-	#region Events
-		private void Player_RecolectCoin() {
-			score++;
-			hud.UpdateScore(score);
-
-			if(playing && coinContainer.GetChildCount() <= 1) {
+		private void CheckCoins() {
+			if(playing && coinContainer.GetChildCount() <= 0) {
 				level++;
 				timeLeft += 7;
 				AddCoin();
 				hud.UpdateTimer(timeLeft);
 			}
+		}
+	#endregion
+
+	#region Events
+		private void Player_RecolectCoin() {
+			coinAudio.Play();
+			score++;
+			hud.UpdateScore(score);
 		}
 
 		private void Player_Hurt() {

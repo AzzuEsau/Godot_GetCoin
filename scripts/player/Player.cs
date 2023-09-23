@@ -73,7 +73,7 @@ public partial class Player : Area2D {
 	#region Events
 		private void Player_AreaEntered(Area2D area) {
 			if(area.IsInGroup("Coin")) {
-				area.QueueFree();
+				((Coin)area).Collect();
 				EmitSignal("RecolectCoin");
 			}
 			else if (area.IsInGroup("Hurtable")) {

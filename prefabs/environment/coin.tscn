@@ -56,9 +56,12 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n8dnf"]
 
-[node name="coin" type="Area2D" groups=["Coin"]]
+[node name="coin" type="Area2D" node_paths=PackedStringArray("animatedSprite2D", "collision", "animationTime") groups=["Coin"]]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_fbcky")
+animatedSprite2D = NodePath("AnimatedSprite2D")
+collision = NodePath("CollisionShape2D")
+animationTime = NodePath("Timer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_8s72m")
@@ -68,3 +71,6 @@ frame_progress = 0.154426
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(5.4575, 5.4575)
 shape = SubResource("RectangleShape2D_n8dnf")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
