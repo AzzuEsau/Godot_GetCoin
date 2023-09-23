@@ -75,15 +75,15 @@ public partial class Player : Area2D {
 		private void Player_AreaEntered(Area2D area) {
 			if(area.IsInGroup("Coin")) {
 				((Coin)area).Collect();
-				EmitSignal("RecolectCoin");
+				EmitSignal(SignalName.RecolectCoin);
 			}
 			else if (area.IsInGroup("Hurtable")) {
-				EmitSignal("Hurt");
+				EmitSignal(SignalName.Hurt);
 				Death();
 			}
 			else if (area.IsInGroup("PowerUp")) {
 				((PowerUp)area).Collect();
-				EmitSignal("RecolectPowerUp");
+				EmitSignal(SignalName.RecolectPowerUp);
 			}
 		}
 	#endregion

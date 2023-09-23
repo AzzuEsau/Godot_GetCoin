@@ -32,7 +32,7 @@ public partial class HUD : CanvasLayer {
     #region Events
         private void PlayButton_Pressed() {
             titleLabel.Hide();
-            EmitSignal("StartGame");
+            EmitSignal(SignalName.StartGame);
         }
     #endregion
 }

@@ -38,8 +38,6 @@ position = Vector2(244, 238)
 
 [node name="GameTimer" type="Timer" parent="Timers"]
 
-[node name="CoinContainer" type="Node" parent="."]
-
 [node name="AudioContainer" type="Node" parent="."]
 
 [node name="StartAuido" type="AudioStreamPlayer" parent="AudioContainer"]
@@ -51,3 +49,5 @@ stream = ExtResource("6_8g1qj")
 [node name="CoinAuido" type="AudioStreamPlayer" parent="AudioContainer"]
 stream = ExtResource("4_woiwo")
 volume_db = -5.0
+
+[node name="CoinContainer" type="Node" parent="."]
